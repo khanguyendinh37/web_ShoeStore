@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+<section class="row" layout:fragment="layoutContent">
+  <div class="col-6 offset-3 mt-4">
+    <form method="POST" th:action="@{/admin/viewCategory/save}"
+          th:object="${category}" enctype="multipart/form-data">
+      <div class="card">
+        <div class="card-header">
+          <h2 th:unless="${category.idCategory != 0}" style="text-align: center;">Add new category</h2>
+<!--          <h2 th:unless="${category.idCategory == 0}" style="text-align: center;">Update category</h2>-->
+        </div>
+        <div class="card-body">
+<!--          <div class="form-group">-->
+<!--            <label class="deline">Category ID: </label> <input type="hidden">-->
+<!--            <input readonly type="text" class="form-control"-->
+<!--                   th:field="*{idCategory}" aria-describedby="categoryIdHid"-->
+<!--                   placeholder="Category ID:">-->
+<!--          </div>-->
+          <div class="form-group">
+            <label class="deline"><b>Name</b>:<b class="text-danger">(*)</b></label>
+              <input type="text" class="form-control" th:field="*{title}" id="name" aria-describedby="nameHid" placeholder="Category Name">
+          </div>
+          <span th:if="${#fields.hasErrors('Title')}" class="has-error">
+              <span th:errors="*{Title}" class="error red_color"></span><br>
+          </span>
+            <div class="form-group">
+                <script>
+                    function choooseFile(fileInput) {
+                        if (fileInput.files && fileInput.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                $('#image').attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
+                    }
+                </script>
+                <div class="form-group center">
+                    <img id="image" th:src="@{/getImg/{imageFile}(imageFile=${category.imageCategory})}" src="" width="90%" class="img-fluid" alt="">
+                </div>
+                <div class="form-group">
+                    <label for="imageFile" class="form-label">Catalog photo</label>
+                    <input type="file" onchange="choooseFile(this)" class="form-control" name="imageFile" id="imageFile" placeholder="Image File" aria-describedby="imageFile">
+
+                </div>
+                <span th:if="${imageError != null}" class="error col-12">
+                     <span th:text="${imageError}" class="error red_color"></span><br>
+                </span>
+            </div>
+          <div class="form-group">
+            <label class="deline">Content</label> <textarea style="height: 200px" type="text"
+                                                           class="form-control" th:field="*{content}" id="detail"
+                                                           placeholder="Category Detail"/>
+          </div>
+          <span th:if="${#fields.hasErrors('Content')}" class="has-error">
+              <span th:errors="*{Content}" class="error red_color"></span><br>
+          </span>
+        </div>
+
+        <div class="card-footer text-muted">
+<!--          <a th:href="@{/admin/viewCategory/}" th:unless="${category.idCategory == 0}" class="btn btn-secondary">-->
+<!--            Reset-->
+<!--          </a>-->
+
+          <a th:href="@{/admin/viewCategory}" class="btn btn-success">List
+            Categories</a>
+          <button th:unless="${category.idCategory != 0}"  class="btn btn-primary">
+            <i class="fa fa-save"></i> <span>Save</span>
+          </button>
+<!--          <button th:unless="${category.idCategory == 0}" class="btn btn-primary">-->
+<!--            <i class="fa fa-save"></i> <span>Update</span>-->
+<!--          </button>-->
+        </div>
+      </div>
+    </form>
+  </div>
+
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout.html}">
+
+<head>
+</head>
+<body>
+<nav  th:fragment="navbar" id="sidebar">
+    <div class="sidebar_blog_1">
+        <div class="sidebar-header">
+            <div class="logo_section">
+                <a th:href="@{/home}"><img class="logo_icon img-responsive" src="/User/images/icons/png-clipart-batman-logo-movies.png" alt="#" /></a>
+            </div>
+        </div>
+        <div class="sidebar_user_info">
+            <div class="icon_setting"></div>
+            <div class="user_profle_side" th:each="account:${account}">
+                <div class="user_img"><img class="img-responsive" th:src="@{/getImg/{img}(img=${account.avatar})}" alt="#" /></div>
+                <div class="user_info">
+                    <h6 th:text="${account.userName}"></h6>
+                    <p><span class="online_animation"></span> Online</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar_blog_2">
+        <h4>General</h4>
+
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a th:href="@{/admin/viewBills}" ><i class="fa fa-suitcase blue_color"></i> <span>BILL</span></a>
+
+            </li>
+            <li><a href="#slide" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-puzzle-piece green_color"></i> <span>SLIDE</span></a>
+                <ul class="collapse list-unstyled" id="slide">
+                    <li><a th:href="@{/admin/viewSlide/}"  ><i class="fa fa-eye"></i> <span>Views Slide</span></a></li>
+                    <li><a th:href="@{/admin/newSlide/}"  ><i class="fa fa-plus"></i> <span>Add Slide</span></a></li>
+
+                </ul></li>
+            <li class="active">
+                <a th:href="@{/admin/viewCategory/}" ><i class="fa fa-pie-chart yellow_color"></i> <span>CATEGORY PRODUCT</span></a>
+
+            </li>
+            <li><a  href="#product" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-shopping-cart orange_color"></i> <span>PRODUCT   </span></a>
+                <ul class="collapse list-unstyled" id="product">
+                    <li><a th:href="@{/admin/viewProduct/}"  ><i class="fa fa-eye"></i> <span>Views products</span></a></li>
+                    <li><a th:href="@{/admin/addProduct/}"  ><i class="fa fa-plus"></i> <span>Add product</span></a></li>
+                    <li><a th:href="@{/admin/viewProductHistory/}"  ><i class="fa fa-trash"></i> <span>Products deleted</span></a></li>
+                </ul>
+            </li>
+            <li><a  href="#news" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-newspaper-o green_color"></i> <span>NEWS   </span></a>
+                <ul class="collapse list-unstyled" id="news">
+                    <li><a th:href="@{/admin/viewNews/}"  ><i class="fa fa-eye"></i> <span>Views news</span></a></li>
+                    <li><a th:href="@{/admin/addNews/}"  ><i class="fa fa-plus"></i> <span>Add news</span></a></li>
+                    <li><a th:href="@{/admin/viewNewsHistory/}"  ><i class="fa fa-trash"></i> <span>News deleted</span></a></li>
+                </ul>
+            </li>
+            <li><a th:href="@{/admin/profile/}"><i class="fa fa-user yellow_color"></i> <span>Customers</span></a></li>
+            <li><a href="#dropdown-menu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-cog yellow_color"></i> <span th:text="${account.userName}"></span></a>
+                <ul class="collapse list-unstyled" id="dropdown-menu">
+                    <li><a th:href="@{/admin/myProfile/}"  ><i class="fa fa-eye"></i> <span>My Profile</span></a></li>
+                    <li><a th:href="@{/admin/}"  ><i class="fa fa-plus"></i> <span>Settings</span></a></li>
+                    <li><a th:href="@{/logout}" id="logoutLink"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
+                </ul>
+
+            </li>
+        </ul>
+
+
+    </div>
+</nav>
+</body>
+</html>

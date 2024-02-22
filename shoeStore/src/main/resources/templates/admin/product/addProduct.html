@@ -1,0 +1,309 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+
+<head>
+    <meta charset="utf-8">
+
+</head>
+
+<body>
+<section class="row" layout:fragment="layoutContent">
+    <div class="col-12 ">
+        <form method="POST" th:action="@{/admin/addProduct}"
+              th:object="${products}" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-header">
+                    <h2  style="text-align: center;">Add new product</h2>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <label class="deline"><b>Name</b>:<b class="text-danger">(*)</b></label>
+                        <input type="text" class="form-control" th:field="*{titleProduct}" id="name" aria-describedby="nameHid" placeholder="Product Name">
+                    </div>
+                    <span th:if="${#fields.hasErrors('titleProduct')}" class="has-error">
+                    </span>
+                   <span th:errors="*{titleProduct}" class="error red_color"></span><br>
+
+                    <div class="form-group">
+                        <script>
+                            function choooseFile(fileInput) {
+                                if (fileInput.files && fileInput.files[0]) {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function(e) {
+                                        $('#image').attr('src', e.target.result);
+                                    }
+                                    reader.readAsDataURL(fileInput.files[0]);
+                                }
+                            }
+
+                        </script>
+                        <div class="form-group center">
+                            <img id="image" th:src="@{/getImg/{imageFile}(imageFile=${products.imageProduct})}" src="" width="90%" class="img-fluid" alt="">
+                        </div>
+                        <div class="form-group">
+                            <label for="imageFile" class="form-label">Product photo</label>
+                            <input type="file" onchange="choooseFile(this)" class="form-control" name="imageFile" id="imageFile" placeholder="Image File" aria-describedby="imageFile">
+
+                        </div>
+                        <span th:if="${imageError != null}" class="error col-12">
+                     <span th:text="${imageError}" class="error red_color"></span><br>
+                   </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="deline">Content</label>
+                        <textarea  style="height: 200px" type="text" class="form-control" th:field="*{content}" id="detail" placeholder="Product content">
+                         </textarea>
+
+
+                    </div>
+                    <span th:if="${#fields.hasErrors('content')}" class="has-error"></span>
+                    <span th:errors="*{content}" class="error red_color"></span><br>
+                     <div class="input-group form-group">
+                                <span class="input-group-text">Price <b class="text-danger">(*)</b></span>
+                                <input type="number" th:field="*{price}" name="price" id="price" class="form-control" placeholder="Unit Price">
+                                <span class="input-group-text">VNĐ</span><br>
+
+                     </div>
+                    <p class="font-weight-bold" >Giá sản phẩm (đã định dạng): <span class="badge badge-pill badge-success" id="gia-da-dinh-dang"></span></p>
+                    <span th:if="${#fields.hasErrors('price')}" class="error">
+                                    <span th:errors="*{price}" class="error red_color"></span><br>
+                            </span>
+
+                    <div class="form-group">
+                        <span class="input-group-text">Product for :
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio"  type="radio" th:field="*{productFor}"  name="gender" value="0" checked="checked"/> All</label>
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio"  type="radio" th:field="*{productFor}" name="gender" value="1"/> Male</label>
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio" type="radio" th:field="*{productFor}" name="gender" value="2"/> Female</label>
+                        </span>
+                    </div>
+                            <div class="form-group">
+                                <label for="category">Category:<b class="text-danger">(*)</b></label>
+                                <select class="form-select form-control" th:field="*{category.idCategory}"  id="category"  required ria-label="Default select example" name="category_id">
+
+                                    <option  th:each="category : ${category}" th:value="${category.idCategory}" th:text="${category.title}"
+                                             th:selected="${category.idCategory== category.idCategory}"
+                                    ></option>
+                                </select>
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" class="form-control" th:field="*{quantity}" name="quantity" id="quantity" aria-describedby="quantityHid" placeholder="Quantity">
+
+                            </div>
+                            <span th:if="${#fields.hasErrors('quantity')}" class="error">
+                                    <span th:errors="*{quantity}" class="error red_color"></span><br>
+                            </span>
+
+                            <div class="input-group form-group">
+                                <span class="input-group-text">Sale:</span>
+                                <input type="number" th:field="*{sale}" name="sale" id="sale" class="form-control" placeholder="Discount">
+                                <span class="input-group-text">%</span>
+
+                            </div>
+                            <span th:if="${#fields.hasErrors('sale')}" class="error">
+                                    <span th:errors="*{sale}" class="error red_color"></span><br>
+                            </span>
+
+                        <div class="form-group">
+                            <label class="deline"><b>Color product</b>:<b class="text-danger">(*)</b></label>
+                            <input type="text" class="form-control" th:field="*{color}" id="color" aria-describedby="nameHid" placeholder="Red,white,...">
+                        </div>
+                        <span th:if="${#fields.hasErrors('color')}" class="has-error"></span>
+                        <span th:errors="*{color}" class="error red_color"></span>
+
+                    <div class="form-group">
+                        <label class="deline"><b>Size product</b>:<b class="text-danger">(*)</b></label>
+                        <input type="text" class="form-control" th:field="*{size}" id="size" aria-describedby="nameHid" placeholder="39,40,41,...">
+                    </div>
+                    <span th:if="${#fields.hasErrors('size')}" class="has-error"></span>
+                    <span th:errors="*{size}" class="error red_color"></span>
+                    <div class="form-group" >
+                        <textarea cols="" rows=""  type="text" class="form-control" style="height:300px " th:field="*{detailProduct}" id="detailProduct"></textarea>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer text-muted">
+
+
+                    <a th:href="@{/admin/viewProduct}" class="btn btn-success">List
+                        Product</a>
+                    <button class="btn btn-primary">
+                        <i class="fa fa-save"></i> <span>Continue</span>
+                    </button>
+
+                </div>
+            </div>
+        </form>
+
+        <script>
+            // This sample still does not showcase all CKEditor 5 features (!)
+            // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
+            CKEDITOR.ClassicEditor.create(document.getElementById("detailProduct"), {
+                // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+                toolbar: {
+                    items: [
+                        'exportPDF','exportWord', '|',
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                        'bulletedList', 'numberedList', 'todoList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                        'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                        'textPartLanguage', '|',
+                        'sourceEditing'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                // Changing the language of the interface requires loading the language file using the <script> tag.
+                // language: 'es',
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                    ]
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+                placeholder: 'Welcome to CKEditor 5!',
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+                fontSize: {
+                    options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                    supportAllValues: true
+                },
+                // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+                // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
+                    ]
+                },
+                // Be careful with enabling previews
+                // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+                htmlEmbed: {
+                    showPreviews: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+                link: {
+                    decorators: {
+                        addTargetToExternalLinks: true,
+                        defaultProtocol: 'https://',
+                        toggleDownloadable: {
+                            mode: 'manual',
+                            label: 'Downloadable',
+                            attributes: {
+                                download: 'file'
+                            }
+                        }
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+                mention: {
+                    feeds: [
+                        {
+                            marker: '@',
+                            feed: [
+                                '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                                '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                                '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                                '@sugar', '@sweet', '@topping', '@wafer'
+                            ],
+                            minimumCharacters: 1
+                        }
+                    ]
+                },
+                // The "super-build" contains more premium features that require additional configuration, disable them below.
+                // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+                removePlugins: [
+                    // These two are commercial, but you can try them out without registering to a trial.
+                    // 'ExportPdf',
+                    // 'ExportWord',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+                    // Storing images as Base64 is usually a very bad idea.
+                    // Replace it on production website with other solutions:
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+                    // 'Base64UploadAdapter',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+                    // from a local file system (file://) - load this site via HTTP server if you enable MathType
+                    'MathType'
+                ]
+            });
+        </script>
+        <script>
+            $(document).ready(function(){
+                $("#price").on("input", function(){
+                    var giaVND = parseFloat($(this).val());
+
+                    // Sử dụng hàm toLocaleString để định dạng giá VND
+                    var giaVNDFormatted = giaVND.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
+
+                    // Hiển thị giá đã định dạng
+                    $("#gia-da-dinh-dang").text(giaVNDFormatted);
+                });
+            });
+        </script>
+    </div>
+
+</section>
+
+</body>
+
+</html>

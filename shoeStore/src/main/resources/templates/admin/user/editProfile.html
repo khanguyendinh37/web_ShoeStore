@@ -1,0 +1,119 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+
+<head>
+    <meta charset="utf-8">
+    <title th:title="${admin.getUserName()}"></title>
+</head>
+
+<body>
+<section class="row" layout:fragment="layoutContent">
+    <div class="col-6 offset-3 mt-4">
+        <form method="POST" th:action="@{/admin/editProfile/{user}(user = ${admin.userName})}"
+              th:object="${account}" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-header">
+                    <!--          <h2 th:unless="${category.idCategory != 0}" style="text-align: center;">Add new category</h2>-->
+                    <h2  style="text-align: center;">Update category</h2>
+                </div>
+                <div class="card-body">
+                    <!--          <div class="form-group">-->
+                    <!--            <label class="deline">Category ID: </label> <input type="hidden">-->
+                    <!--            <input readonly type="text" class="form-control"-->
+                    <!--                   th:field="*{idCategory}" aria-describedby="categoryIdHid"-->
+                    <!--                   placeholder="Category ID:">-->
+
+                    <div class="form-group">
+                        <script>
+                            function choooseFile(fileInput) {
+                                if (fileInput.files && fileInput.files[0]) {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function(e) {
+                                        $('#image').attr('src', e.target.result);
+                                    }
+                                    reader.readAsDataURL(fileInput.files[0]);
+                                }
+                            }
+                        </script>
+                        <div class="form-group center">
+
+                            <img style="max-width:300px " id="image" th:src="@{/getImg/{imageFile}(imageFile=${admin.getAvatar()})}" src="" width="90%" class="img-fluid" alt="">
+                        </div>
+                        <div class="form-group">
+                            <label for="imageFile" class="form-label">Avatar photo</label>
+                            <input type="file" onchange="choooseFile(this)" class="form-control" name="imageFile" id="imageFile" placeholder="Image File" aria-describedby="imageFile">
+
+                        </div>
+<!--                        <span th:if="${ != null}" class="error col-12">-->
+<!--                     <span th:text="${imageError}" class="error red_color"></span><br>-->
+
+                    </div>
+                    <!--          </div>-->
+                    <div class="form-group">
+                        <label class="deline"><b>Full Name</b>:<b class="text-danger">(*)</b></label>
+                        <input type="text" class="form-control" th:field="*{fullName}" id="name" aria-describedby="nameHid" placeholder="Full Name">
+                    </div>
+                    <span th:if="${#fields.hasErrors('fullName')}" class="has-error">
+                    <span th:errors="*{fullName}" class="error red_color"></span><br>
+                    </span>
+                    <div class="form-group">
+                        <label class="deline"><b>Phone Number</b>:<b class="text-danger">(*)</b></label>
+                        <input type="text" class="form-control" th:field="*{phoneNumber}"  aria-describedby="nameHid" placeholder="Phone number">
+                    </div>
+                    <span th:if="${#fields.hasErrors('phoneNumber')}" class="has-error">
+                    <span th:errors="*{phoneNumber}" class="error red_color"></span><br>
+                    </span>
+                    <div class="form-group">
+                        <label class="deline"><b>Email </b>:<b class="text-danger">(*)</b></label>
+                        <input type="text" class="form-control" th:field="*{email}" aria-describedby="nameHid" placeholder="Full Name">
+                    </div>
+                    <span th:if="${#fields.hasErrors('email')}" class="has-error">
+                    <span th:errors="*{email}" class="error red_color"></span><br>
+                    </span>
+                    <div class="form-group">
+                        <label class="deline"><b>BirthDay </b>:<b class="text-danger">(*)</b></label>
+                        <input type="date" class="form-control" th:field="*{birthDay}" aria-describedby="nameHid" placeholder="Full Name">
+                    </div>
+                    <span th:if="${#fields.hasErrors('birthDay')}" class="has-error">
+                    <span th:errors="*{birthDay}" class="error red_color"></span><br>
+                    </span>
+                    <div class="form-group">
+                        <label class="deline"><b>Address</b>:<b class="text-danger">(*)</b></label>
+                        <input type="text" class="form-control" th:field="*{address}" aria-describedby="nameHid" placeholder="Address...">
+                    </div>
+                    <span th:if="${#fields.hasErrors('address')}" class="has-error">
+                    <span th:errors="*{address}" class="error red_color"></span><br>
+                    </span>
+                    <div class="form-group">
+                        <span class="input-group-text">Gender :
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio"  type="radio" th:field="*{sex}"  name="gender" value="0" th:checked="${sex== 0}"/> null</label>
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio"  type="radio" th:field="*{sex}" name="gender" value="1" th:checked="${sex== 1}"/> Man</label>
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio"  type="radio" th:field="*{sex}" name="gender" value="1" th:checked="${sex== 2}"/> Woman</label>
+                             <label style="margin-top: 10px" class="col-2"><input  class="radio" type="radio" th:field="*{sex}" name="gender" value="2" th:checked="${sex== 3}"/> 3rd gender </label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-footer text-muted">
+                    <a th:href="@{/admin/myProfile/}"  class="btn btn-secondary"> <i class="fa fa-arrow-left"></i>
+                        Come back
+                    </a>
+
+
+                    <!--          <button th:unless="${category.idCategory != 0}"  class="btn btn-primary">-->
+                    <!--            <i class="fa fa-save"></i> <span>Save</span>-->
+                    <!--          </button>-->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i> <span>Update</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+</body>
+
+</html>

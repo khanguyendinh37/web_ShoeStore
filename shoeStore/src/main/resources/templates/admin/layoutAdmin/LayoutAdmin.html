@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Shoe - Store</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="/adminStyle/images/logo/Vans_Paint_37309.png" type="image/png" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="/adminStyle/css/bootstrap.min.css" />
+    <!-- site css -->
+    <link rel="stylesheet" href="/adminStyle/style.css" />
+    <!-- responsive css -->
+    <link rel="stylesheet" href="/adminStyle/css/responsive.css" />
+    <!-- color css -->
+    <link rel="stylesheet" href="/adminStyle/css/colors.css" />
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="/adminStyle/css/bootstrap-select.css" />
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="/adminStyle/css/perfect-scrollbar.css" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="/adminStyle/js/semantic.min.css">
+    <link rel="stylesheet" href="/adminStyle/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/adminStyle/css/custom.css" />
+    <link rel="stylesheet" href="/adminStyle/css/font-awesome.css" />
+    <link rel="stylesheet" href="/adminStyle/css/font-awesome.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>-->
+    <script src="/adminStyle/ckeditor/ckeditor.js"></script>
+<!--    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>-->
+
+    <!--    <link rel="stylesheet"-->
+<!--          href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"-->
+<!--          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"-->
+<!--          crossorigin="anonymous"/>-->
+
+    <!--[if lt IE 9]>
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="dashboard dashboard_1">
+<div class="full_container">
+    <div class="inner_container">
+        <!-- Sidebar  -->
+        <nav th:replace="admin/LayoutAdmin/Navbar::navbar" id="sidebar">
+
+        </nav>
+        <!-- end sidebar -->
+        <!-- right content -->
+        <div id="content">
+            <!-- topbar -->
+            <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="full ">
+                        <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
+                        <div class="logo_section  " >
+                            <a style="font-size: 20px;" class="text-white font-weight-bold m-1"  th:href="@{/home}"><img class="img-responsive logo_big" src="/User/images/icons/png-clipart-batman-logo-movies.png" alt="#" /> BATMAN STORE</a>
+                        </div>
+                        <div class=" right_topbar">
+                            <div class="icon_info">
+                                <ul>
+                                    <li><a th:href="@{/admin/viewBillsConfirm}"><i class="fa fa-bell-o"></i><span class="badge" th:text="${Total}"></span></a></li>
+                                    <li><a href="#"><i class="fa fa-envelope-o"></i><span class="badge">3</span></a></li>
+                                    <ul class="user_profile_dd">
+                                        <li>
+                                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" th:src="@{/getImg/{img}(img = ${account.avatar})}" th:alt="${account.userName}" /><span class="name_user" th:text="${account.userName}"></span></a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="profile.html">My Profile</a>
+                                                <a class="dropdown-item" href="settings.html">Settings</a>
+                                                <a class="dropdown-item" href="help.html">Help</a>
+                                                <a class="dropdown-item" th:href="@{/logout}" id="logoutLink"><i class="fa fa-sign-out"></i> <span>Logout</span></a>
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+            <!-- end topbar -->
+            <!-- dashboard inner -->
+            <div layout:fragment="layoutContent" class="col-md-12">
+            </div>
+            <!-- end dashboard inner -->
+
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="/adminStyle/js/jquery.min.js"></script>
+<script src="/adminStyle/js/popper.min.js"></script>
+<script src="/adminStyle/js/bootstrap.min.js"></script>
+<!-- wow animation -->
+<script src="/adminStyle/js/animate.js"></script>
+<!-- select country -->
+<script src="/adminStyle/js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="/adminStyle/js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="/adminStyle/js/Chart.min.js"></script>
+<script src="/adminStyle/js/Chart.bundle.min.js"></script>
+<script src="/adminStyle/js/utils.js"></script>
+<script src="/adminStyle/js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="/adminStyle/js/perfect-scrollbar.min.js"></script>
+<script>
+    var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- custom js -->
+<script src="/adminStyle/js/custom.js"></script>
+<script src="/adminStyle/js/chart_custom_style1.js"></script>
+<script src="/adminStyle/js/semantic.min.js"></script>
+<script src="/adminStyle/js/jquery-3.3.1.min.js"></script>
+<script src="/adminStyle/js/jquery.fancybox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" ></script>
+
+
+
+
+
+</body>
+</html>

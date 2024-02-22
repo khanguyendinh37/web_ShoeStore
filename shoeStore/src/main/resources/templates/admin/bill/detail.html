@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Bills</title>
+</head>
+<body>
+<div layout:fragment="layoutContent" class="col-md-12 margin_top_30">
+  <div class="white_shd full margin_bottom_30">
+    <div class="full graph_head">
+      <div class="heading1 margin_0 text-uppercase">
+        <h2>Bills  <i class="fa fa-suitcase orange_color"></i></h2>
+      </div>
+      <div class="row mt-2 mb-2">
+        <div class="col">
+
+          <div class="float-right">
+            <a class="btn btn-outline-primary"
+               th:href="@{/admin/viewBills}"><i class="fa fa-chevron-left"></i> Come back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table_section padding_infor_info">
+      <div class="table-responsive-sm">
+        <table class="table table-hover text-xl-center">
+          <tr class="text-uppercase">
+            <thead>
+            <th >Images</th>
+            <th >Product</th>
+            <th >Quantity</th>
+            <th> Color</th>
+            <th> Size</th>
+            <th >Price</th>
+            <th >Price total</th>
+
+            <th ></th>
+            </thead>
+
+          </tr>
+
+          <tr class="table_row js-pscroll" th:each="billD:${billdetail}">
+            <td class="column-1">
+              <a th:href="@{/cart/{Id}(Id = ${billD.idProduct})}" >
+                <div >
+                  <img th:src="@{/getImg/{img}(img=${billD.imageProduct})}" alt="IMG" style="max-width: 80px;max-height: 80px">
+                </div>
+              </a>
+
+            </td>
+            <td class="column-2 " ><a class="js-name-detail" th:href="@{/cart/{Id}(Id = ${billD.idProduct})}"   th:text="${#strings.substring(billD.nameProduct, 0, 20)}+'...'"></a>
+              <span class="header-cart-item-info" >
+                                            <span class="header-cart-item-info" ><span th:text="'  Color: '+${billD.colorBill}+'  '"></span><span th:text="'  Size: ' +${billD.sizeBill}"></span></span>
+                                        </span>
+            </td>
+            <td   th:text="${billD.getQuantity()}">
+
+            </td>
+            <td  th:text="${billD.getColorBill()}">
+            <td th:text="${billD.getSizeBill()}"></td>
+            <td class="price"  th:data-price="${billD.getPrice()}">
+
+            </td>
+            <td class="price"  th:data-price="${billD.getLinePrice()}">
+
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+  <script>
+    $(document).ready(function() {
+      // Lấy danh sách tất cả các ô có class "price"
+      var priceCells = $(".price");
+
+      // Định dạng giá tiền cho mỗi ô
+      priceCells.each(function() {
+        var price = $(this).data("price"); // Lấy giá từ thuộc tính data-price
+
+        // Định dạng giá tiền theo định dạng VND
+        var formattedPrice = formatCurrency(price);
+
+        // Gán giá tiền đã định dạng vào ô
+        $(this).text(formattedPrice);
+      });
+    });
+
+    // Hàm định dạng giá tiền
+    function formatCurrency(amount) {
+      var formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+      });
+
+      return formatter.format(amount);
+    }
+  </script>
+</div>
+</body>
+</html>

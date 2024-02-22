@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+
+<head>
+  <title>Home Page</title>
+
+</head>
+
+<body>
+<div layout:fragment="layoutContent" class="col-md-12">
+  <div class="col mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-uppercase">List of News History</h2>
+      </div>
+      <div class="card-body">
+        <div class="row mt-2 mb-2">
+          <div class="col">
+            <form th:action="@{/admin/viewNewsHistory}">
+              <div class="form-inline float-left">
+                <label for="name">Name:</label> <input type="text"
+                                                       class="form-control ml-2" name="title" id="name"
+                                                       aria-describedby="helpId" placeholder="Title News History..">
+                <button class="btn btn-outline-primary">Search</button>
+              </div>
+            </form>
+            <div class="float-right">
+              <a class="btn btn-outline-primary"
+                 th:href="@{/admin/viewNews}"><i class="fa fa-arrow-left"></i> Come back</a>
+            </div>
+          </div>
+        </div>
+
+        <table class="table table-hover table-inverse">
+          <thead class="thead-inverse">
+          <tr class="deline">
+            <th>Image</th>
+            <th>Name</th>
+            <th>Update day</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr  th:each="item, iStat : ${accountPage.content}">
+            <td>
+              <div class="column">
+                <a data-fancybox="gallery" th:href="@{/getImg/{imageFile}(imageFile=${item.images})}">
+                  <img class="img-responsive" th:src="@{/getImg/{imageFile}(imageFile=${item.images})}" alt="#" style=" max-height: 80px;max-width: 125px; padding: 0px; height: auto"></a>
+              </div>
+
+            </td>
+
+            <td th:text="${item.titleNews}"></td>
+
+            <td th:text="${item.dateNews}"></td>
+
+            <td>
+
+              <a th:href="@{'/admin/ViewNews/'+${item.IdNews}}" class="btn btn-outline-primary"><i
+                      class="fa fa-eye"></i></a>
+              <a  data-toggle="modal" th:data-target="'#confirmationModalRistory'+${item.IdNews}" id="confirmationId1" class="btn btn-outline-danger"><i
+                      class="fa fa-history"></i></a>
+              <div class="modal fade" th:id="'confirmationModalRistory'+${item.IdNews}" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteCategoryModalLabel1">Xác nhận khôi phục bản tin</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Bạn có chắc chắn muốn khôi phục bản tin <b th:text="${item.titleNews}"></b> này?<p></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelDeleteAction1">Hủy</button>
+                      <a th:href="@{'/admin/ristoryNews/'+${item.IdNews}}"    type="button" class="btn btn-danger" id="confirmDeleteAction1">Xác nhận</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <a data-toggle="modal" th:data-target="'#confirmationModal'+${item.IdNews}" id="confirmationId" class="btn btn-outline-danger" ><i class="fa fa-recycle"></i></a>
+              <div class="modal fade" th:id="'confirmationModal'+${item.IdNews}" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteCategoryModalLabel">Xác nhận xóa bản tin</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Bạn có chắc chắn muốn xóa bản tin <b th:text="${item.titleNews}"></b> này?<p></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelDeleteAction">Hủy</button>
+                      <a th:href="@{'/admin/deleteNEwsHistory/' + ${item.IdNews}}"  type="button" class="btn btn-danger" id="confirmDeleteAction">Xác nhận</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted">
+    <form action="">
+      <div class="form-inline float-left">
+        <label for="">Page Size: </label>
+        <select name="size" id="size" class="form-control" onchange="this.form.submit()">
+          <option th:selected="${accountPage.size==5}" value="5">5</option>
+          <option th:selected="${accountPage.size==10}" value="10">10</option>
+          <option th:selected="${accountPage.size==15}" value="15">15</option>
+          <option th:selected="${accountPage.size==20}" value="20">20</option>
+          <option th:selected="${accountPage.size==25}" value="25">25</option>
+        </select>
+      </div>
+
+    </form>
+    <nav aria-label="Page navigation" th:if="${accountPage.totalPages > 0}">
+      <ul class="pagination justify-content-center">
+        <li th:class="${ 1== accountPage.number + 1} ? 'page-item active' : 'page-item'">
+          <a th:href="@{/admin/viewNewsHistory(name=${name}, size=${accountPage.size}, page=${1})}" class="page-link">First
+          </a>
+        </li>
+        <li class="page-item active" th:each="pageNumber : ${pageNumbers}" th:if="${accountPage.totalPages>1}" th:class="${pageNumber == accountPage.number + 1} ? 'page-item active' : 'page-item'">
+          <a th:href="@{/admin/viewNewsHistory(name=${name}, size=${accountPage.size}, page=${pageNumber})}" class="page-link" th:text="${pageNumber}">
+          </a>
+        </li>
+
+
+        <li th:class="${accountPage.totalPages == accountPage.number + 1} ? 'page-item active' : 'page-item'">
+          <a th:href="@{/admin/viewNewsHistory(name=${name}, size=${accountPage.size}, page=${accountPage.totalPages})}" class="page-link">Last
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+
+
+  <!-- Modal -->
+
+
+</div>
+
+
+</div>
+</body>
+
+</html>

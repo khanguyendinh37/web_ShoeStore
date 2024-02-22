@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="layoutContent" class="col-md-12 margin_top_30">
+    <div  class="col-md-12">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0">
+                    <h2 th:text="${product.getTitleProduct()}"></h2>
+                </div>
+            </div>
+            <div class="full gallery_section_inner padding_infor_info">
+                <div   class="row">
+                    <div class="col-sm-4 col-md-3 margin_bottom_30">
+                        <div class="column" >
+                            <a data-fancybox="gallery" th:href="@{/getImg/{imageFile}(imageFile=${product.getImageProduct()})}">
+                                <img class="img-responsive" th:src="@{/getImg/{imageFile}(imageFile=${product.getImageProduct()})}" alt="#"></a>
+
+                        </div>
+                    </div>
+                    <div th:each="imageitem:${imageProducts}" class="col-sm-4 col-md-3 margin_bottom_30">
+                        <div class="column" >
+                            <a data-fancybox="gallery" th:href="@{/getImg/{imageFile}(imageFile=${imageitem.image})}">
+                                <img class="img-responsive" th:src="@{/getImg/{imageFile}(imageFile=${imageitem.image})}" alt="#"></a>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="full inner_elements margin_top_30">
+                    <div class="tab_style2">
+                        <div class="tabbar">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#recent_activity" role="tab" aria-selected="false">Detail</a>
+                                    <a class="nav-item nav-link active show" id="nav-profile-tab" data-toggle="tab" href="#project_worked" role="tab" aria-selected="true">Product introduction</a>
+                                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#profile_section" role="tab" aria-selected="false"><i class="fa fa-comment"></i> Evaluate</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade" id="recent_activity" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    <div class="msg_list_main">
+                                        <p th:text="${product.getContent()}"/>
+                                        <ul class="font-weight-bold">
+                                            <li >Price : <p style="margin-left: 40px" id="price"th:data-price="${product.price}"></p></li>
+                                            <li >Sale : <p style="margin-left: 40px" th:text="${product.getSale()}"></p> %</li>
+                                            <li >Quantity : <p style="margin-left: 40px" th:text="${product.getQuantity()}"></p></li>
+                                            <li >Color : <p style="margin-left: 40px" th:text="${product.getColor()}"></p></li>
+                                            <li >Size : <p style="margin-left: 40px" th:text="${product.getSize()}"></p></li>
+<!--                                            <li ><select name="color">-->
+<!--                                                <option th:each="color : ${colors}" th:text="${color}"></option>-->
+<!--                                            </select></li>-->
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade active show" id="project_worked" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <div th:utext="${product.getDetailProduct()}"></div>
+                                </div>
+                                <div class="tab-pane fade" id="profile_section" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                    <ul>
+                                        <li  >
+                                            <div class="contact_blog col-12" th:each="comment:${comments}">
+                                                <div class="contact_inner">
+                                                    <div class="left col-2">
+                                                        <div class="profile_contacts " style="width: 100px; height: 100px">
+                                                            <img class="img-responsive" th:src="@{/getImg/{imageFile}(imageFile=${comment.account.getAvatar()})}" alt="#">
+                                                        </div>
+                                                    </div>
+                                                    <div class="right col-10" data-bs-spy="scroll">
+                                                        <div class="form-group ">
+                                                            <div class="right">
+                                                                <h3 th:text="${comment.userName}"></h3>
+                                                            </div>
+                                                            <div class="left">
+                                                                <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">
+                                                                </i> <i class="fa fa-comments-o"></i>
+                                                                </button>
+                                                                <a th:href="@{/admin/profile/{userName}(userName=${comment.userName})}" class="btn btn-primary btn-xs">
+                                                                    <i class="fa fa-user"> </i> View Profile
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="bottom_list">
+                                                            <div class="left_rating">
+
+                                                            </div>
+                                                            <div class="left_rating">
+                                                                <p class="ratings">
+                                                                    <span th:each="star, stat : ${#numbers.sequence(1, comment.getStar())}">
+                                                                        <span class="fa fa-star"></span>
+                                                                    </span>
+                                                                    <span th:each="star, stat : ${#numbers.sequence(1, 5 - comment.getStar())}">
+                                                                        <span class="fa fa-star-o"></span></a>
+                                                                    </span>
+
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <p class="text font-weight-bold">Content: </p>
+                                                        <p th:text="${comment.content}"></p>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+
+
+            <a th:href="@{/admin/viewProduct}" class="btn btn-outline-primary "><i class="fa fa-arrow-left"></i> Come back</a>
+
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Lấy danh sách tất cả các ô có class "price"
+            var priceCells = $("#price");
+
+            // Định dạng giá tiền cho mỗi ô
+            priceCells.each(function() {
+                var price = $(this).data("price"); // Lấy giá từ thuộc tính data-price
+
+                // Định dạng giá tiền theo định dạng VND
+                var formattedPrice = formatCurrency(price);
+
+                // Gán giá tiền đã định dạng vào ô
+                $(this).text(formattedPrice);
+            });
+        });
+
+        // Hàm định dạng giá tiền
+        function formatCurrency(amount) {
+            var formatter = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            });
+
+            return formatter.format(amount);
+        }
+    </script>
+</div>
+
+</body>
+</html>

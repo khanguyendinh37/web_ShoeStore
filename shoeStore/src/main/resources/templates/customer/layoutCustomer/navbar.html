@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default-layout.html}">
+<head>
+    <title>Home</title>
+
+</head>
+<body class="animsition">
+<header th:fragment="header">
+    <!-- Header desktop -->
+    <div class="container-menu-desktop">
+        <!-- Topbar -->
+        <style>
+            .main-menu li a:hover{
+                font-size: 18px;
+                color: #2869ea;
+                text-shadow: 2px 2px 4px rgba(99, 248, 2, 0.6);
+            }
+            .main-menu li a.active {
+
+                font-size: 20px;
+                color: #025af5;
+                text-shadow: 2px 2px 4px rgba(99, 248, 2, 0.8);
+            }
+        </style>
+        <div class="wrap-menu-desktop" >
+            <nav class="limiter-menu-desktop container">
+
+                <!-- Logo desktop -->
+                <a href="#" class="logo">
+                    <img src="/User/images/icons/png-clipart-batman-logo-movies.png" alt="IMG-LOGO">
+                </a>
+
+                <!-- Menu desktop -->
+                <div class="menu-desktop" >
+                    <ul class="main-menu">
+                        <li  >
+                            <a  th:href="@{/home}"  onclick="makeActive(this)">Home</a>
+
+                        </li>
+
+                        <li >
+                            <a th:href="@{/product}" onclick="makeActive(this)">Shop</a>
+                        </li>
+
+<!--                        <li class="label1" data-label1="hot" >-->
+<!--                            <a href="#" onclick="makeActive(this)">Features</a>-->
+<!--                        </li>-->
+
+                        <li >
+                            <a th:href="@{/News}" onclick="makeActive(this)">News</a>
+                        </li>
+
+                        <li >
+                            <a onclick="makeActive(this)" th:href="@{/About}">About</a>
+                        </li>
+
+                        <li>
+                            <a  onclick="makeActive(this)" th:href="@{/Contact}">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <script>
+                    function makeActive(element) {
+                        const navbar = document.getElementsByClassName('main-menu')[0];
+                        const menuItems = navbar.getElementsByTagName('a');
+                        for (let i = 0; i < menuItems.length; i++) {
+                            menuItems[i].classList.remove('active');
+                        }
+                        element.classList.add('active');
+                        // Lưu trạng thái menu đã chọn vào Local Storage
+                        localStorage.setItem('activeMenu', element.textContent.trim());
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const activeMenu = localStorage.getItem('activeMenu');
+                        if (activeMenu) {
+                            const navbar = document.getElementsByClassName('main-menu')[0];
+                            const menuItems = navbar.getElementsByTagName('a');
+                            for (let i = 0; i < menuItems.length; i++) {
+                                if (menuItems[i].textContent.trim() === activeMenu) {
+                                    menuItems[i].classList.add('active');
+                                }
+                            }
+                        }
+                    });
+
+                </script>
+                <!-- Icon header -->
+                <div class="wrap-icon-header flex-w flex-r-m">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                        <i class="zmdi zmdi-search"></i>
+                    </div>
+
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" th:data-notify="${bill.quantity}">
+                        <i class="zmdi zmdi-shopping-cart"></i>
+                    </div>
+
+                    <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+                        <i class="zmdi zmdi-favorite-outline"></i>
+                    </a>
+
+<!--                    <ul class="main-menu">-->
+<!--                        <li>-->
+<!--                            <a href="#">User</a>-->
+<!--                            <ul class="sub-menu">-->
+<!--                                <li>Login </li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+
+                </div>
+                <div style="margin-left: 20px" th:if="${account}==null">
+                    <a th:href="@{/login}" class="btn btn-outline-primary">Login</a>
+                </div>
+                <div style="margin-left: 20px" th:if="${account}!=null">
+                    <ul class="user_profile_dd">
+                        <li>
+                            <a th:if="${account.avatar}==null" class="dropdown-toggle" data-toggle="dropdown"><img style="max-width: 30px;max-height: 30px" class="img-responsive rounded-circle" src="/User/images/avatar.png" th:alt="${account.userName}" />
+                                <span style="margin-left: 5px;font-size: 16px;font-weight: bold;font-family: 'Varela Round', Helvetica, Arial, sans-serif;color: #c804f5" class="name_user" th:text="${account.userName}"></span></a>
+                            <a th:if="${account.avatar}!=null" class="dropdown-toggle" data-toggle="dropdown"><img style="max-width: 30px;max-height: 30px" class="img-responsive rounded-circle" th:src="@{/getImg/{img}(img = ${account.avatar})}" th:alt="${account.userName}" />
+                                <span style="margin-left: 5px;font-size: 16px;font-weight: bold;font-family: 'Varela Round', Helvetica, Arial, sans-serif;color: #1aa62a" class="name_user" th:text="${account.userName}"></span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="profile.html">My Profile</a>
+                                <a class="dropdown-item" href="settings.html">Settings</a>
+                                <a class="dropdown-item" href="help.html">Help</a>
+                                <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+<!--                                <a th:href="@{/login}"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>-->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Header Mobile -->
+    <div class="wrap-header-mobile">
+        <!-- Logo moblie -->
+        <div class="logo-mobile">
+            <a href="#"><img src="/User/images/icons/png-clipart-batman-logo-movies.png"  alt="IMG-LOGO"></a>
+        </div>
+
+        <!-- Icon header -->
+        <div class="wrap-icon-header flex-w flex-r-m m-r-15">
+            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                <i class="zmdi zmdi-search"></i>
+            </div>
+
+            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" th:data-notify="${bill.quantity}">
+                <i class="zmdi zmdi-shopping-cart"></i>
+            </div>
+
+            <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti " data-notify="0">
+                <i class="zmdi zmdi-favorite-outline"></i>
+            </a>
+
+        </div>
+
+        <!-- Button show menu -->
+        <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+        </div>
+    </div>
+
+
+    <!-- Menu Mobile -->
+    <div class="menu-mobile">
+
+
+        <ul class="main-menu-m">
+            <li>
+                <a th:href="@{/home}"  onclick="makeActive(this)">Home</a>
+
+
+            </li>
+
+            <li>
+                <a th:href="@{/product}"  onclick="makeActive(this)">Shop</a>
+            </li>
+
+<!--            <li>-->
+<!--                <a href="#" class="label1 rs1" data-label1="hot"  onclick="makeActive(this)">Features</a>-->
+<!--            </li>-->
+
+            <li>
+                <a th:href="@{/News}"  onclick="makeActive(this)">News</a>
+            </li>
+
+            <li>
+                <a href="#"  onclick="makeActive(this)">About</a>
+            </li>
+
+            <li>
+                <a href="#"  onclick="makeActive(this)">Contact</a>
+            </li>
+            <li>
+                <a th:if="${account}==null" th:href="@{/login}" >Login</a>
+                <div style="margin-left: 20px" th:if="${account}!=null">
+                    <ul class="user_profile_dd">
+                        <li>
+                            <a th:if="${account.avatar}==null" class="dropdown-toggle" data-toggle="dropdown"><img style="max-width: 30px;max-height: 30px" class="img-responsive rounded-circle" src="/User/images/avatar.png" th:alt="${account.userName}" />
+                                <span style="margin-left: 5px;font-size: 16px;font-weight: bold;font-family: 'Varela Round', Helvetica, Arial, sans-serif;color: #f8f8f8" class="name_user" th:text="${account.userName}"></span></a>
+                            <a th:if="${account.avatar}!=null" class="dropdown-toggle" data-toggle="dropdown"><img style="max-width: 30px;max-height: 30px" class="img-responsive rounded-circle" th:src="@{/getImg/{img}(img = ${account.avatar})}" th:alt="${account.userName}" />
+                                <span style="margin-left: 5px;font-size: 16px;font-weight: bold;font-family: 'Varela Round', Helvetica, Arial, sans-serif;color: #f8f8f8" class="name_user" th:text="${account.userName}"></span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="profile.html">My Profile</a>
+                                <a class="dropdown-item" href="settings.html">Settings</a>
+                                <a class="dropdown-item" href="help.html">Help</a>
+                                <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+
+                                <!--                                <a th:href="@{/login}"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>-->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- Modal Search -->
+
+    <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+        <div class="container-search-header">
+            <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+                <img src="/User/images/icons/icon-close2.png" alt="CLOSE">
+            </button>
+
+            <form class="wrap-search-header flex-w p-l-15" th:action="@{/product}">
+                <button class="flex-c-m trans-04">
+                    <i class="zmdi zmdi-search"></i>
+                </button>
+                <input class="plh3" type="text" name="titleProduct" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+
+</header>
+</body>
+</html>

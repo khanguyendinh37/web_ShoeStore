@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:fragment="title">Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/User/images/icons/favicon.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/fonts/linearicons-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/slick/slick.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/MagnificPopup/magnific-popup.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/User/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/User/css/main.css">
+    <!--===============================================================================================-->
+    <style>
+        .text-light {
+            text-shadow: 2px 2px 4px rgba(6,247,23, 0.8); /* Tạo bóng cho chữ */
+            color: #fff; /* Chọn màu trắng cho chữ */
+        }
+
+        .text-light:hover {
+            text-shadow: 2px 2px 8px rgb(7, 248, 24); /* Thay đổi bóng khi di chuột qua */
+        }
+        .block1-txt {
+            display: none;
+        }
+        .block1:hover .block1-txt {
+            display: block;
+        }
+    </style>
+</head>
+<body class="animsition">
+
+<!-- Header -->
+<header th:replace="customer/layoutCustomer/navbar::header">
+
+</header>
+
+<div class="wrap-header-cart js-panel-cart">
+    <div class="s-full js-hide-cart"></div>
+
+    <div class="header-cart flex-col-l p-l-65 p-r-25">
+        <div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Your Cart
+				</span>
+
+            <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                <i class="zmdi zmdi-close"></i>
+            </div>
+        </div>
+
+        <div class="header-cart-content flex-w js-pscroll">
+            <ul class="header-cart-wrapitem w-full">
+                <li th:each="dill:${billDetail}" class="header-cart-item flex-w flex-t m-b-12">
+                    <a th:href="@{/deleteCart/{id}(id=${dill.IdProduct})}">
+                        <div class="header-cart-item-img js-deleteCart-detail">
+                            <img  th:src="@{/getImg/{img}(img=${dill.getImageProduct()})}" alt="IMG">
+                        </div>
+                    </a>
+
+                    <div class="header-cart-item-txt p-t-8">
+                        <a th:href="@{/cart/{id}(id=${dill.IdProduct})}" class="header-cart-item-name m-b-18 hov-cl1 trans-04 js-name-detail" th:text="${#strings.substring(dill.nameProduct, 0, 20)}+'...'">
+
+                        </a>
+
+                        <span class="header-cart-item-info" >
+                            <span th:text="${dill.quantity} + ' x '"></span>
+                            <span class="price" th:data-price="${dill.price}"></span>
+
+                        </span>
+                        <span class="header-cart-item-info" >
+                            <span th:text="'  Color: '+${dill.colorBill}+'  '"></span>
+                            <span th:text="'  Size: ' +${dill.sizeBill}"></span>
+                        </span>
+                    </div>
+                </li>
+
+
+            </ul>
+
+            <div class="w-full">
+                <div class="header-cart-total w-full p-tb-40 " >
+                    Total Price :
+                    <span class="price" th:data-price="${bill.totalPrice}"></span>
+
+                </div>
+
+                <div class="header-cart-buttons flex-w w-full">
+                    <a th:href="@{/shoppingCart}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                        View Cart &nbsp; <i class="fa fa-shopping-cart"></i>
+                    </a>
+
+                    <a th:href="@{/showSuccessPage}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+                        purchased order &nbsp; <i class="fa fa-cubes"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div layout:fragment="layoutContent"></div>
+<!-- Footer -->
+<footer th:replace="customer/layoutCustomer/footer::footer">
+
+</footer>
+
+
+
+<!--===============================================================================================-->
+<script src="/User/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="/User/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="/User/vendor/bootstrap/js/popper.js"></script>
+<script src="/User/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/User/vendor/select2/select2.min.js"></script>
+<script>
+    $(".js-select2").each(function(){
+        $(this).select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $(this).next('.dropDownSelect2')
+        });
+    })
+</script>
+<!--===============================================================================================-->
+<script src="/User/vendor/daterangepicker/moment.min.js"></script>
+<script src="/User/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="/User/vendor/slick/slick.min.js"></script>
+<script src="/User/js/slick-custom.js"></script>
+<!--===============================================================================================-->
+<script src="/User/vendor/parallax100/parallax100.js"></script>
+<script>
+    $('.parallax100').parallax100();
+</script>
+<!--===============================================================================================-->
+<script src="/User/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+<script>
+    $('.gallery-lb').each(function() { // the containers for all your galleries
+        $(this).magnificPopup({
+            delegate: 'a', // the selector for gallery item
+            type: 'image',
+            gallery: {
+                enabled:true
+            },
+            mainClass: 'mfp-fade'
+        });
+    });
+</script>
+<!--===============================================================================================-->
+<script src="/User/vendor/isotope/isotope.pkgd.min.js"></script>
+<!--===============================================================================================-->
+<script src="/User/vendor/sweetalert/sweetalert.min.js"></script>
+
+<script>
+    $('.js-addwish-b2').on('click', function(e){
+        e.preventDefault();
+    });
+
+    $('.js-addwish-b2').each(function(){
+        var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+        $(this).on('click', function(){
+            swal(nameProduct, "is added to wishlist !", "success");
+
+            $(this).addClass('js-addedwish-b2');
+            $(this).off('click');
+        });
+    });
+
+    $('.js-addwish-detail').each(function(){
+        var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+        $(this).on('click', function(){
+            swal(nameProduct, "is added to wishlist !", "success");
+
+            $(this).addClass('js-addedwish-detail');
+            $(this).off('click');
+        });
+    });
+
+    $(document).ready(function(){
+        var nameProduct = $('.js-name-detail').html();
+        var quantity1 = $('.quantityProduct').html();
+        var qt = parseFloat(quantity1) ;
+
+        // Hàm kiểm tra số lượng và hiển thị cửa sổ thông báo
+        function checkQuantity(sl) {
+            if(sl > qt){
+                swal(nameProduct, "Sorry customers! Because the product is not supplied in enough quantity!", "error");
+                return true; // Trả về true nếu số lượng vượt quá giới hạn
+            }
+
+
+            return false; // Trả về false nếu số lượng không vượt quá giới hạn
+        }
+
+        // Kiểm tra khi giá trị của input thay đổi
+        $("#quantityBill").on("input", function(){
+            var sl = parseFloat($(this).val());
+            console.log(sl);
+            if(checkQuantity(sl)) {
+                // Nếu số lượng vượt quá giới hạn, đặt lại giá trị của input
+                $(this).val(qt); // hoặc $(this).val('') để xóa giá trị nhập vào
+            }
+        });
+
+        // Kiểm tra khi nút tăng số lượng được nhấn
+        $('.btn-num-product-up').on('click', function() {
+            var inputField = $("#quantityBill");
+            var sl = parseFloat(inputField.val()) + 1; // Tăng giá trị số lượng lên 1
+            if(checkQuantity(sl)) {
+                // Nếu số lượng vượt quá giới hạn, đặt lại giá trị của input
+                inputField.val(qt); // hoặc inputField.val('') để xóa giá trị nhập vào
+            } else {
+                inputField.val(sl); // Nếu số lượng không vượt quá giới hạn, tăng giá trị số lượng lên 1
+            }
+        });
+    });
+
+
+    /*---------------------------------------------*/
+    $('.js-addcart-detail').each(function(){
+        var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+        var quantity1 = $(this).parent().parent().parent().find('.quantityProduct').html();
+
+        $(this).on('click', function(){
+            swal(nameProduct, "is added to cart !", "success");
+        });
+    });
+
+    $('.js-deleteCart-detail').each(function(){
+        var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+        $(this).on('click', function(){
+            swal(nameProduct, "is delete to cart !", "success");
+        });
+    });
+
+</script>
+<!--===============================================================================================-->
+<script src="/User/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script>
+    $('.js-pscroll').each(function(){
+        $(this).css('position','relative');
+        $(this).css('overflow','hidden');
+        var ps = new PerfectScrollbar(this, {
+            wheelSpeed: 1,
+            scrollingThreshold: 1000,
+            wheelPropagation: false,
+        });
+
+        $(window).on('resize', function(){
+            ps.update();
+        })
+    });
+</script>
+<script th:fragment="script" >    $(document).ready(function() {
+    // Lấy danh sách tất cả các ô có class "price"
+    var priceCells = $(".price");
+
+    // Định dạng giá tiền cho mỗi ô
+    priceCells.each(function() {
+        var price = $(this).data("price"); // Lấy giá từ thuộc tính data-price
+
+        // Định dạng giá tiền theo định dạng VND
+        var formattedPrice = formatCurrency(price);
+
+        // Gán giá tiền đã định dạng vào ô
+        $(this).text(formattedPrice);
+    });
+});
+
+// Hàm định dạng giá tiền
+function formatCurrency(amount) {
+    var formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+
+    return formatter.format(amount);
+}</script>
+<!--===============================================================================================-->
+<script src="/User/js/main.js"></script>
+<script th:fragment="script" ></script>
+</body>
+</html>

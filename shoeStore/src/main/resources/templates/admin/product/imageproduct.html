@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+<section class="row" layout:fragment="layoutContent">
+    <div class="col-md-12">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0">
+                    <h2>Image Product</h2>
+                </div>
+            </div>
+            <div class="full gallery_section_inner padding_infor_info">
+                <div class="row">
+
+                    <div th:each="imageitem:${imageProducts}" class="col-sm-4 col-md-3 margin_bottom_30">
+
+                        <div class="column" >
+                            <a data-fancybox="gallery" th:href="@{/getImg/{imageFile}(imageFile=${imageitem.image})}">
+                                <img class="img-responsive" th:src="@{/getImg/{imageFile}(imageFile=${imageitem.image})}" alt="#"></a>
+
+                        </div>
+                        <a th:href="@{'/admin/deleteImage/' + ${imageitem.idImage}}" class="btn btn-danger" ><i class="fa fa-close text-white"></i></a>
+
+                    </div>
+                    <div class="form-group">
+                        <script>
+                            function choooseFile(fileInput) {
+                                if (fileInput.files && fileInput.files[0]) {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function(e) {
+                                        $('#image').attr('src', e.target.result);
+                                    }
+                                    reader.readAsDataURL(fileInput.files[0]);
+                                }
+                            }
+                        </script>
+                        <form method="POST" th:action="@{/admin/addImage/{id}(id = ${IdProduct})}"
+                              th:object="${imageProduct}" enctype="multipart/form-data">
+                            <div class="col-sm-4 col-md-3 margin_bottom_30">
+
+                                <div class="column" >
+                                 <img id="image" th:src="@{/getImg/{imageFile}(imageFile=${imageProduct.image})}" src="" width="90%" class="img-fluid" alt="">
+                               </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="imageFile" class="form-label">Product photo</label>
+                                <input type="file" onchange="choooseFile(this)" class="form-control" name="imageFile" id="imageFile" placeholder="Image File" aria-describedby="imageFile">
+
+                            </div>
+                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-file"></i> save Image</button>
+
+                        </form>
+
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <div class="card-footer text-muted">
+
+
+            <a th:href="@{'/admin/editProduct/'+${Id}}"  class="btn btn-warning text-light"><i class="fa fa-arrow-left"></i> Come back</a>
+            <a class="btn btn-primary text-light" th:href="@{/admin/viewProduct}">
+                <i class="fa fa-save"></i> <span>Save</span>
+            </a>
+
+        </div>
+    </div>
+
+</section>
+
+</body>
+
+</html>

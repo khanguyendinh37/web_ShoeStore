@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/admin/layoutAdmin/LayoutAdmin.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Bills</title>
+</head>
+<body>
+<div layout:fragment="layoutContent" class="col-md-12 margin_top_30">
+  <div class="white_shd full margin_bottom_30">
+    <div class="full graph_head">
+      <div class="heading1 margin_0 text-uppercase">
+        <h2>Bills  <i class="fa fa-suitcase orange_color"></i></h2>
+      </div>
+      <div class="row mt-2 mb-2">
+        <div class="col">
+
+          <div class="float-right">
+            <a class="btn btn-outline-primary"
+               th:href="@{/admin/viewBills}"><i class="fa fa-chevron-circle-left"></i> Come back</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table_section padding_infor_info">
+      <div class="table-responsive-sm">
+        <table class="table table-hover text-xl-center">
+          <thead>
+          <tr class="text-uppercase">
+            <th>Bill_ID</th>
+            <th>Orderer</th>
+            <th>booking date</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>status</th>
+            <th style="width: 300px"> <a class="btn btn-outline-success"
+                                         th:href="@{/admin/all}"><i class="fa fa-check-circle-o"></i> Confirm All</a></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="bill:${bills}">
+            <td th:text="${bill.idBill}"></td>
+            <td th:text="${bill.fullName}"></td>
+            <td th:text="${bill.billDate}">
+            </td>
+            <td th:text="${bill.quantity}"></td>
+            <td class="price" th:data-price="${bill.totalPrice}"></td>
+            <td >
+              <span th:if="${bill.getStatus()==0}">Waiting for confirmation!...</span>
+              <span th:if="${bill.getStatus()==1}"><i class="fa fa-truck"></i> Your order is being shipped to you!...</span>
+            </td>
+            <td>
+              <a th:href="@{'/admin/Detail/' + ${bill.idBill}}" class="btn btn-outline-primary"><i class="fa fa-cubes"></i>  detail</a>
+              <a th:if="${bill.status}==0" th:href="@{'/admin/confirm/' + ${bill.idBill}}" class="btn btn-outline-warning"><i class="fa fa-check-circle-o"></i>  confirm</a>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+  <script>
+    $(document).ready(function() {
+      // Lấy danh sách tất cả các ô có class "price"
+      var priceCells = $(".price");
+
+      // Định dạng giá tiền cho mỗi ô
+      priceCells.each(function() {
+        var price = $(this).data("price"); // Lấy giá từ thuộc tính data-price
+
+        // Định dạng giá tiền theo định dạng VND
+        var formattedPrice = formatCurrency(price);
+
+        // Gán giá tiền đã định dạng vào ô
+        $(this).text(formattedPrice);
+      });
+    });
+
+    // Hàm định dạng giá tiền
+    function formatCurrency(amount) {
+      var formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+      });
+
+      return formatter.format(amount);
+    }
+  </script>
+</div>
+</body>
+</html>

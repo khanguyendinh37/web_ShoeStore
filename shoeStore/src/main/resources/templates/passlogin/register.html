@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign Up Batman Store</title>
+
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="/loginStyle/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/loginStyle/css/style.css">
+</head>
+<body>
+<div class="main">
+
+  <div class="container">
+    <div class="signup-content">
+      <form method="POST" id="signup-form" class="signup-form" th:action="@{/register}"  th:object="${account}">
+        <h2>Sign up </h2>
+        <p class="desc">to get discount 10% when pre - order <span>“Batman Beyond”</span></p>
+
+        <div class="form-group">
+          <div class="input-box">
+            <input class="form-input"  name="userName" type="text" id="username" placeholder="Enter your username"
+                   maxlength="30" th:field="*{userName}" required
+                   pattern="^\S*$" title="Username should not contain spaces"
+            >
+          </div>
+          <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="txt_error"></span>
+          <span th:if="${error_username!=null}" th:text="${error_username}" class="txt_error"></span>
+
+        </div>
+        <div class="form-group">
+          <div class="input-box">
+            <input  class="form-input" name="password" type="password" id="password" placeholder="Enter your password"
+                   th:field="*{password}" maxlength="30"
+                   required
+                   pattern="^\S*$"
+                   title="Username should not contain spaces">
+            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+          </div>
+          <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="txt_error"></span>
+
+        </div>
+        <div class="form-group">
+
+          <div class="input-box">
+            <input name="re_password" maxlength="30" type="password" id="re_password"
+                   placeholder="Confirm password" required
+                   pattern="^\S*$" title="Password should not contain spaces">
+            <span toggle="#re_password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+          </div>
+          <span th:if="${error_password!=null}" th:text="${error_password}" class="txt_error"></span>
+
+        </div>
+        <div class="form-group">
+          <div class="input-box">
+            <input type="text" maxlength="30" id="name" placeholder="Enter your name" th:field="*{fullName}"
+                   required>
+          </div>
+          <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="txt_error"></span>
+        </div>
+        <div class="form-group">
+          <div class="input-box">
+            <input name="phone" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+                   type="text" id="phone" placeholder="Enter your phone number" th:field="*{phoneNumber}" required>
+          </div>
+          <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="txt_error"></span>
+          <span th:if="${error_phone!=null}" th:text="${error_phone}" class="txt_error"></span>
+        </div>
+        <div class="form-group">
+          <div class="input-box">
+            <input name="email" maxlength="30" type="email" id="email" placeholder="Enter your email"
+                   th:field="*{email}"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address"
+                   required>
+          </div>
+          <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="txt_error "></span>
+          <span th:if="${error_email!=null}" th:text="${error_email}" class="txt_error"></span>
+        </div>
+<!--        <div class="form-group">-->
+<!--          <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />-->
+<!--          <label for="agree-term" class="label-agree-term"><span><span></span></span>I'm don't robot! </label>-->
+<!--        </div>-->
+        <div class="form-group">
+          <input type="submit" name="submit" id="submit" class="form-submit submit" value="Register"/>
+          <a th:href="@{/login}" class="submit-link submit">Sign in</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+</body>
+<script src="/loginStyle/vendor/jquery/jquery.min.js"></script>
+<script src="/loginStyle/js/main.js"></script>
+</html>
